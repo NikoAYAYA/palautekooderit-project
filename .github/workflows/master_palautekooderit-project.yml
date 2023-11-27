@@ -34,8 +34,8 @@ jobs:
       #  run: python manage.py collectstatic
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
-     - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+     ##- name: Zip artifact for deployment
+      #  run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
@@ -58,8 +58,8 @@ jobs:
         with:
           name: python-app
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
+     ## - name: Unzip artifact for deployment
+      #  run: unzip release.zip
 
       
       - name: 'Deploy to Azure Web App'
