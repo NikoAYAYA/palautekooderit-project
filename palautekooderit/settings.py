@@ -48,12 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-    #'palautekooderit.apps.AzureContentConfig'
-=======
     # 'palautekooderit.apps.AzureContentConfig'
     'feedbacks.apps.FeedbacksConfig',
->>>>>>> ropsu
 ]
 
 MIDDLEWARE = [

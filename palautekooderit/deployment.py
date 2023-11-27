@@ -25,7 +25,16 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 conn_str = os.environ['AZURE_MYSQL_CONNECTIONSTRING']
-conn_str_params = {pair.split('='):pair.split('=')[1] for pair in conn_str.split(' ')}
+
+pairs = conn_str.split(';')
+conn_str_params = {}
+for pair in pairs:
+    if pair == "": continue
+
+    p = pair.split('=')
+    key = p[0]
+    val = p[1]
+    conn_str_params[key] = val
 
 DATABASES = {
     'default': {
