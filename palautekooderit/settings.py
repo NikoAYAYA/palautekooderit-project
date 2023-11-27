@@ -26,13 +26,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #with open(".secret.json", "r") as secrets_file:
 #rikkoo deploymentin atm koska filua ei olemassa    secrets = json.load(secrets_file)
 
+secrets = None
+with open(".secret.json", "r") as secrets_file:
+    secrets = json.load(secrets_file)
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "secret_key"
+SECRET_KEY = secrets["secret_key"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['20.79.107.2']
+ALLOWED_HOSTS = [
+    '20.79.107.2',
+    'localhost'
+]
 
 
 # Application definition
