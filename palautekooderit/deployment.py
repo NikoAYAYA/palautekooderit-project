@@ -1,7 +1,6 @@
 import os
 from .settings import *
 
-
 SECRET_KEY = os.environ['SECRET']
 ALLOWED_HOSTS = ['20.79.107.2']
 CSRF_TRUSTED_ORIGINS = ['https://'+ os.environ['WEBSITE_HOSTNAME']]
