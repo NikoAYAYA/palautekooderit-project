@@ -38,10 +38,10 @@ for pair in pairs:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': conn_str_params['dbname'],
-        'HOST': conn_str_params['host'],
-        'USER': conn_str_params['user'],
-        'PASSWORD': conn_str_params['password'],
+        'NAME': conn_str_params['AZURE_MYSQL_NAME'],
+        'HOST': conn_str_params['AZURE_MYSQL_HOST'],
+        'USER': conn_str_params['AZURE_MYSQL_USER'],
+        'PASSWORD': conn_str_params['AZURE_MYSQL_PASSWORD'],
         # 'PORT': conn_str_params['3306']
     }
 }
