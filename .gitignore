@@ -66,4 +66,4 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-.secret.json
+*secret*.json

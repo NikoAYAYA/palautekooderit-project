@@ -10,14 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-
 from pathlib import Path
 import os
 import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -26,14 +24,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #with open(".secret.json", "r") as secrets_file:
 #rikkoo deploymentin atm koska filua ei olemassa    secrets = json.load(secrets_file)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "secret_key"
+# prevent Azure from looking for the secrets file. Azure will use environment variables
+# in deployment.py
+if 'WEBSITE_HOSTNAME' not in os.environ:
+    secrets = None
+    with open(".secret.json", "r") as secrets_file:
+        secrets = json.load(secrets_file)
+
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = secrets["secret_key"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['20.79.107.2']
-
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -44,7 +48,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     #'palautekooderit.apps.AzureContentConfig'
+=======
+    # 'palautekooderit.apps.AzureContentConfig'
+    'feedbacks.apps.FeedbacksConfig',
+>>>>>>> ropsu
 ]
 
 MIDDLEWARE = [
@@ -127,7 +136,7 @@ USE_TZ = True
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATICFILES_DIRS = (str(BASE_DIR.joinpath('azure_content/static')),)
+STATICFILES_DIRS = (str(BASE_DIR.joinpath('palautekooderit/static')),)
 STATIC_URL = '/palautekooderit/static/'
 
 # Default primary key field type
