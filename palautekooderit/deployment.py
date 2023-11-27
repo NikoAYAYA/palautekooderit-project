@@ -42,6 +42,6 @@ DATABASES = {
         'NAME': conn_str_params['Database'],
         'PORT': conn_str_params['Port'],
         'USER': conn_str_params['User Id'],
-        'PASSWORD': conn_str_params['AZURE_MYSQL_PASSWORD']
+        #'PASSWORD': conn_str_params['AZURE_MYSQL_PASSWORD']
     }
 }
