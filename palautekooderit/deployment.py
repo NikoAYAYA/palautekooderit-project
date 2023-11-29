@@ -1,10 +1,16 @@
 import os
 from .settings import *
+import mysql.connector
+from mysql.connector import errorcode
+from devsecrets import secrets
 
-SECRET_KEY = os.environ['SECRET']
-ALLOWED_HOSTS = ['20.79.107.2']
+
+
+
+SECRET_KEY = secrets.get['SECRET_KEY']
+ALLOWED_HOSTS = []
 CSRF_TRUSTED_ORIGINS = ['https://'+ os.environ['WEBSITE_HOSTNAME']]
-DEBUG = False
+DEBUG = True
 
 # This should be added when in Azure environment?
 #INSTALLED_APPS.append("palautekooderit.apps.AzureContentConfig")
@@ -45,3 +51,22 @@ DATABASES = {
         #'PASSWORD': conn_str_params['AZURE_MYSQL_PASSWORD']
     }
 }
+
+db_user = secrets.get('DATABASE_USER', 'root') 
+db_pass = secrets.get('DATABASE_PASSWORD', 'pass') 
+db_port = secrets.get('DATABASE_PORT', 3306) 
+  
+cnx = mysql.connector.connect(user="db_user", password="db_pass", host="palautekooderit-project-server.mysql.database.azure.com", port=3306, database="palautekooderit-project-database", ssl_ca="", ssl_disabled=True)
+
+try:
+  cnx = mysql.connector.connect(user='db_user',
+                                database='palautekooderit-project-database')
+except mysql.connector.Error as err:
+  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+    print("Something is wrong with your user name or password")
+  elif err.errno == errorcode.ER_BAD_DB_ERROR:
+    print("Database does not exist")
+  else:
+    print(err)
+else:
+  cnx.close()
