@@ -32,7 +32,7 @@ if 'WEBSITE_HOSTNAME' not in os.environ:
         secrets = json.load(secrets_file)
 
     # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = secrets["secret_key"]
+    SECRET_KEY = secrets["SECRET"]#??? SECRET azuressa.
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
