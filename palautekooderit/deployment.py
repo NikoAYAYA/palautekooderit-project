@@ -7,7 +7,7 @@ from mysql.connector import errorcode
 
 
 
-SECRET_KEY = os.environ.get['SECRET'] #jos devsecrets käyttöön otetaan ni vaihtaa SECRET_KEYksi.
+SECRET_KEY = os.environ['SECRET'] #jos devsecrets käyttöön otetaan ni vaihtaa SECRET_KEYksi.
 ALLOWED_HOSTS = []
 CSRF_TRUSTED_ORIGINS = ['http://'+ os.environ['WEBSITE_HOSTNAME']]
 DEBUG = True
