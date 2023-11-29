@@ -68,3 +68,5 @@ env.bak/
 venv.bak/
 *secret*.json
 devsecrets.py
+palautekooderit\devsecrets.py
+palautekooderit/devsecrets.py

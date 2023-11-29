@@ -2,7 +2,7 @@ import os
 from .settings import *
 import mysql.connector
 from mysql.connector import errorcode
-from devsecrets import secrets
+from .devsecrets import secrets
 
 
 
@@ -14,7 +14,6 @@ DEBUG = True
 
 # This should be added when in Azure environment?
 #INSTALLED_APPS.append("palautekooderit.apps.AzureContentConfig")
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
