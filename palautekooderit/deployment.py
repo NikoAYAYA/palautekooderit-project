@@ -2,6 +2,7 @@ import os
 from .settings import *
 import mysql.connector
 from mysql.connector import errorcode
+from devsecrets import secrets
 
 
 
@@ -50,7 +51,7 @@ DATABASES = {
         #'PASSWORD': conn_str_params['AZURE_MYSQL_PASSWORD']
     }
 }
-
+"""
 db_user = secrets.get('DATABASE_USER', 'root') 
 db_pass = secrets.get('DATABASE_PASSWORD', 'pass') 
 db_port = secrets.get('DATABASE_PORT', 3306) 
@@ -69,3 +70,4 @@ except mysql.connector.Error as err:
     print(err)
 else:
   cnx.close()
+  """

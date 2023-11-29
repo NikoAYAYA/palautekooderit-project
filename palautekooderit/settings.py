@@ -88,9 +88,17 @@ WSGI_APPLICATION = 'palautekooderit.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('AZURE_MYSQL_NAME'),
+        'USER': os.environ.get('AZURE_MYSQL_USER'),
+        'PASSWORD': os.environ.get('AZURE_MYSQL_PASSWORD'),
+        'HOST': os.environ.get('AZURE_MYSQL_HOST'),
+        'PORT': '3306',
     }
+    #'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': BASE_DIR / 'db.sqlite3',
+    #}
 }
 
 
