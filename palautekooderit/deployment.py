@@ -48,7 +48,7 @@ DATABASES = {
         'NAME': conn_str_params['Database'],
         'PORT': conn_str_params['Port'],
         'USER': conn_str_params['User Id'],
-        'PASSWORD': os.environ.get['AZURE_MYSQL_PASSWORD'] #ei välttämättä toimi jne. Ei välttis pitäiskään. Pitää saada mysql autentikoitumaan salasanan kanssa.
+        'PASSWORD': os.environ['AZURE_MYSQL_PASSWORD'] #ei välttämättä toimi jne. Ei välttis pitäiskään. Pitää saada mysql autentikoitumaan salasanan kanssa.
     }
 }
 """
