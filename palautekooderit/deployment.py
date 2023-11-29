@@ -2,6 +2,7 @@ import os
 from .settings import *
 import mysql.connector
 from mysql.connector import errorcode
+import devsecrets
 from devsecrets import secrets
 
 
