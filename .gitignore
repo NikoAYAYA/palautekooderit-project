@@ -70,3 +70,4 @@ venv.bak/
 devsecrets.py
 palautekooderit\devsecrets.py
 palautekooderit/devsecrets.py
+DigiCertGlobalRootCA.crt.pem
