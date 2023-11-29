@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'palautekooderit.apps.AzureContentConfig'
     'feedbacks.apps.FeedbacksConfig',
+    'palautekooderit.devsecrets',
 ]
 
 MIDDLEWARE = [

@@ -1,16 +1,15 @@
 import os
-from pathlib import Path
 from .settings import *
 import mysql.connector
 from mysql.connector import errorcode
-from devsecrets import secrets
+from .devsecrets import secrets
 
 
 
 
 SECRET_KEY = secrets.get['SECRET_KEY']
 ALLOWED_HOSTS = []
-CSRF_TRUSTED_ORIGINS = ['https://'+ os.environ['WEBSITE_HOSTNAME']]
+CSRF_TRUSTED_ORIGINS = ['http://'+ os.environ['WEBSITE_HOSTNAME']]
 DEBUG = True
 
 # This should be added when in Azure environment?
