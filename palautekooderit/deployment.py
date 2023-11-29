@@ -2,7 +2,7 @@ import os
 from .settings import *
 import mysql.connector
 from mysql.connector import errorcode
-from palautekooderit.devsecrets import secrets
+from devsecrets import secrets
 
 
 
@@ -11,6 +11,7 @@ SECRET_KEY = secrets.get['SECRET_KEY']
 ALLOWED_HOSTS = []
 CSRF_TRUSTED_ORIGINS = ['http://'+ os.environ['WEBSITE_HOSTNAME']]
 DEBUG = True
+
 
 # This should be added when in Azure environment?
 #INSTALLED_APPS.append("palautekooderit.apps.AzureContentConfig")
