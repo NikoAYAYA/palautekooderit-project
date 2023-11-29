@@ -95,6 +95,7 @@ DATABASES = {
         'HOST': os.environ.get('AZURE_MYSQL_HOST'),
         'PORT': '3306',
     }
+    #^ Toimiiko tää ees ja onko täs mitään järkee? Taitaa toi deployment olla validimpi säätökohde... :O
     #'default': {
     #    'ENGINE': 'django.db.backends.sqlite3',
     #    'NAME': BASE_DIR / 'db.sqlite3',

@@ -9,7 +9,7 @@ from mysql.connector import errorcode
 
 SECRET_KEY = os.environ['SECRET'] #jos devsecrets käyttöön otetaan ni vaihtaa SECRET_KEYksi.
 ALLOWED_HOSTS = []
-CSRF_TRUSTED_ORIGINS = ['http://'+ os.environ['WEBSITE_HOSTNAME']]
+CSRF_TRUSTED_ORIGINS = ['https://'+ os.environ['WEBSITE_HOSTNAME']] #muutettu tätä ja debug laitettu päälle joten nyt voi nähdä livestä virheilmoitukset https://palautekooderit-project.azurewebsites.net/
 DEBUG = True
 
 
@@ -48,7 +48,7 @@ DATABASES = {
         'NAME': conn_str_params['Database'],
         'PORT': conn_str_params['Port'],
         'USER': conn_str_params['User Id'],
-        #'PASSWORD': conn_str_params['AZURE_MYSQL_PASSWORD']
+        'PASSWORD': os.environ.get['AZURE_MYSQL_PASSWORD'] #ei välttämättä toimi jne. Ei välttis pitäiskään. Pitää saada mysql autentikoitumaan salasanan kanssa.
     }
 }
 """
