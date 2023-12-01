@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.urls.base import reverse_lazy
 from .models import Feedback, Topic
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 # Create your views here.
 class FeedbackCreateView(CreateView):
@@ -16,8 +17,11 @@ class FeedbackCreateView(CreateView):
         form.instance.topic = topic
         return super().form_valid(form)
 
-class TopicCreateView(CreateView):
+class TopicCreateView(UserPassesTestMixin, CreateView):
     model = Topic
     fields = ['name']
     template_name = "feedback/create_topic.html"
-    success_url = reverse_lazy('feedback:index')  # Adjust the URL name based on your project structure
+    success_url = reverse_lazy('feedback:index')
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='topic_masters').exists()

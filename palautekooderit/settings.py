@@ -37,7 +37,7 @@ if 'WEBSITE_HOSTNAME' not in os.environ:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.100.175"]
+ALLOWED_HOSTS = ["192.168.100.174"]
 
 # Application definition
 
