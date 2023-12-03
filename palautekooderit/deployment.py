@@ -1,21 +1,27 @@
 import os
 from .settings import *
+import mysql.connector
+from mysql.connector import errorcode
+#from devsecrets import secrets
 
-SECRET_KEY = os.environ['SECRET']
-ALLOWED_HOSTS = ['20.79.107.2']
-CSRF_TRUSTED_ORIGINS = ['https://'+ os.environ['WEBSITE_HOSTNAME']]
-DEBUG = False
+
+
+
+SECRET_KEY = os.environ['SECRET'] #jos devsecrets käyttöön otetaan ni vaihtaa SECRET_KEYksi.
+ALLOWED_HOSTS = ['palautekooderit-project.azurewebsites.net']
+CSRF_TRUSTED_ORIGINS = ['https://'+ os.environ['WEBSITE_HOSTNAME']] #muutettu tätä ja debug laitettu päälle joten nyt voi nähdä livestä virheilmoitukset https://palautekooderit-project.azurewebsites.net/
+DEBUG = True
+
 
 # This should be added when in Azure environment?
-INSTALLED_APPS.append("palautekooderit.apps.AzureContentConfig")
-
+#INSTALLED_APPS.append("palautekooderit.apps.AzureContentConfig")
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -38,10 +44,33 @@ for pair in pairs:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': conn_str_params['dbname'],
-        'HOST': conn_str_params['host'],
-        'USER': conn_str_params['user'],
-        'PASSWORD': conn_str_params['password'],
-        # 'PORT': conn_str_params['3306']
+        'HOST': conn_str_params['Server'],
+        'NAME': conn_str_params['Database'],
+        'PORT': conn_str_params['Port'],
+        'USER': conn_str_params['User Id'],
+        'PASSWORD': os.environ['AZURE_MYSQL_PASSWORD'], #Taitaa toimia nyt. Pitää saada mysql autentikoitumaan salasanan kanssa. Lisätään cert path jotta saadaan turvallinen tiedonsiirto?
+        'OPTIONS': {
+            'ssl': {'ssl': {'cert' : 'DigiCertGlobalRootCA.crt.pem'}}
+        }
     }
 }
+"""
+db_user = secrets.get('DATABASE_USER', 'root') 
+db_pass = secrets.get('DATABASE_PASSWORD', 'pass') 
+db_port = secrets.get('DATABASE_PORT', 3306) 
+  
+cnx = mysql.connector.connect(user="db_user", password="db_pass", host="palautekooderit-project-server.mysql.database.azure.com", port=3306, database="palautekooderit-project-database", ssl_ca="", ssl_disabled=True)
+
+try:
+  cnx = mysql.connector.connect(user='db_user',
+                                database='palautekooderit-project-database')
+except mysql.connector.Error as err:
+  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+    print("Something is wrong with your user name or password")
+  elif err.errno == errorcode.ER_BAD_DB_ERROR:
+    print("Database does not exist")
+  else:
+    print(err)
+else:
+  cnx.close()
+  """
