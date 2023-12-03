@@ -4,8 +4,7 @@ import mysql.connector
 from mysql.connector import errorcode
 #from devsecrets import secrets
 
-
-
+print("\nDeployment.py\n")
 
 SECRET_KEY = os.environ['SECRET'] #jos devsecrets käyttöön otetaan ni vaihtaa SECRET_KEYksi.
 ALLOWED_HOSTS = ['palautekooderit-project.azurewebsites.net']

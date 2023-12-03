@@ -26,18 +26,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # prevent Azure from looking for the secrets file. Azure will use environment variables
 # in deployment.py
+secrets = None
 if 'WEBSITE_HOSTNAME' not in os.environ:
-    secrets = None
     with open(".secret.json", "r") as secrets_file:
         secrets = json.load(secrets_file)
 
+if secrets is None:
+    raise Exception("Secrets file not found")
+
+print("continuing")
+
+if secrets is not None:
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = secrets["SECRET"]#??? SECRET azuressa.
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.100.174"]
+ALLOWED_HOSTS = ["localhost", "192.168.100.174"]
 
 # Application definition
 
@@ -87,12 +93,18 @@ WSGI_APPLICATION = 'palautekooderit.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': BASE_DIR / 'db.sql',
+if secrets is not None:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            # 'NAME': BASE_DIR / 'db.sql',
+            'NAME': 'djangodb',
+            'USER': secrets['dbuser'],
+            'PASSWORD': secrets['dbpassword'],
+            'HOST': 'localhost',
+            'PORT': '',
+        }
     }
-}
 
 
 # Password validation
