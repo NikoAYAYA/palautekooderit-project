@@ -7,7 +7,7 @@ CSRF_TRUSTED_ORIGINS = ['https://'+ os.environ['WEBSITE_HOSTNAME']]
 DEBUG = False
 
 # This should be added when in Azure environment?
-INSTALLED_APPS.append("palautekooderit.apps.AzureContentConfig")
+#INSTALLED_APPS.append("palautekooderit.apps.AzureContentConfig")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -15,7 +15,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -38,10 +38,10 @@ for pair in pairs:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': conn_str_params['dbname'],
-        'HOST': conn_str_params['host'],
-        'USER': conn_str_params['user'],
-        'PASSWORD': conn_str_params['password'],
-        # 'PORT': conn_str_params['3306']
+        'HOST': conn_str_params['Server'],
+        'NAME': conn_str_params['Database'],
+        'PORT': conn_str_params['Port'],
+        'USER': conn_str_params['User Id'],
+        #'PASSWORD': conn_str_params['AZURE_MYSQL_PASSWORD']
     }
 }
