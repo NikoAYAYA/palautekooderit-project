@@ -4,13 +4,14 @@ from django.contrib.auth.models import User
 
 class Topic(models.Model):
     name = models.CharField(max_length=160)
+
     def __str__(self):
         return self.name
 
 class Feedback(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    rating = models.IntegerField(default=50, validators=[
-        MinValueValidator(1), MaxValueValidator(100)])
+    rating = models.IntegerField(default=1, validators=[
+        MinValueValidator(1), MaxValueValidator(5)])
     good = models.TextField(max_length=2000, blank=True)
     bad = models.TextField(max_length=2000, blank=True)
     ideas = models.TextField(max_length=2000, blank=True)
