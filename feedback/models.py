@@ -15,7 +15,7 @@ class Feedback(models.Model):
     bad = models.TextField(max_length=2000, blank=True)
     ideas = models.TextField(max_length=2000, blank=True)
     date = models.DateTimeField(auto_now_add=True)
-    creator_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # creator_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.date}"
