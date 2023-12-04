@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 # Create your views here.
 class FeedbackCreateView(CreateView):
     model = Feedback
-    fields = ['topic', 'rating', 'good', 'bad']  # Include all fields in the form
+    fields = ['topic', 'rating', 'good', 'bad', 'ideas']  # Include all fields in the form
     template_name = "feedback/index.html"
     success_url = reverse_lazy('feedback:index')
 

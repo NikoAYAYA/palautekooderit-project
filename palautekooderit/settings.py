@@ -34,7 +34,7 @@ if 'WEBSITE_HOSTNAME' not in os.environ:
 if secrets is None:
     raise Exception("Secrets file not found")
 
-print("continuing")
+print("this runs twice for some reason?")
 
 if secrets is not None:
     # SECURITY WARNING: keep the secret key used in production secret!
