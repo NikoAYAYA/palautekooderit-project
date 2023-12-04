@@ -32,7 +32,7 @@ if 'WEBSITE_HOSTNAME' not in os.environ:
         secrets = json.load(secrets_file)
 
 if secrets is None:
-    raise Exception("Secrets file not found")
+    print("Secrets file not found. Azure environment?")
 
 print("this runs twice for some reason?")
 
