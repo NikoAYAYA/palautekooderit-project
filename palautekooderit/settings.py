@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     # 'palautekooderit.apps.AzureContentConfig'
     'feedback.apps.FeedbackConfig',
     'account.apps.AccountConfig',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
