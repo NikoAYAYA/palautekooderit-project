@@ -7,20 +7,33 @@
 
 <!-- Feedback entries -->
 {% for topic, feedbacks in results %}
-    <div class="feedbackEntries" id="topic{{ topic.id }}" style="display: none;">
+    <div class="topic" id="topic{{ topic.id }}" style="display: none;">
         {% for feedback in feedbacks %}
-            <p>{{ feedback.content }}</p>
+            <div class="feedbackEntry">
+                <p>{{ feedback.rating }}</p>
+                <p>{{ feedback.good }}</p>
+                <p>{{ feedback.bad }}</p>
+                <p>{{ feedback.ideas }}</p>
+                <p>{{ feedback.date }}</p>
+            </div>
         {% endfor %}
     </div>
 {% endfor %}
 
 <!-- JavaScript to show/hide feedback entries -->
 <script>
-    document.getElementById('topicSelect').addEventListener('change', function() {
+    let topics = document.getElementsByClassName('topic');
+    let topicsArray = Array.from(topics);
+    let topicSelect = document.getElementById('topicSelect');
+    let selectedTopicId = topicSelect.value;
+    let selectedTopic = topicsArray.find(e => e.id === "topic" + selectedTopicId);
+    selectedTopic.style.display = "block"
+    
+    topicSelect.addEventListener('change', function() {
         // Hide all feedback entries
-        var feedbackEntries = document.getElementsByClassName('feedbackEntries');
-        for (var i = 0; i < feedbackEntries.length; i++) {
-            feedbackEntries[i].style.display = 'none';
+        var topics = document.getElementsByClassName('topic');
+        for (var i = 0; i < topics.length; i++) {
+            topics[i].style.display = 'none';
         }
 
         // Show feedback entries for selected topic
