@@ -1,6 +1,6 @@
 <h1>Give Feedback</h1>
 
-    <!-- <a href="{% url 'feedback:create_topic' %}">Create New Topic</a> <form action="" method="post"> -->
+    <!-- <a href="{% url 'feedback:create_topic' %}">Create New Topic</a> -->
 
     {% if user.is_authenticated %}
         {% if is_topic_master %}
@@ -8,6 +8,7 @@
         {% endif %}
     {% endif %}
 
+<form action="" method="post">
     {% csrf_token %}
     <table>
         {{ form.as_table }}

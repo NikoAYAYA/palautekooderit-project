@@ -29,7 +29,14 @@ class FeedbackCreateView(CreateView):
     # This is called automatically when valid form data has been POSTed
     def form_valid(self, form):
         topic_name = form.cleaned_data['topic']
-        topic, is_created = Topic.objects.get_or_create(name=topic_name)
+        topic = Topic.objects.get(name=topic_name)
+
+        # Check if the user has already given feedback for this topic
+        if (topic.feedback_set.filter(creator_user=self.request.user).exists()):
+            # Add a non-field error to the form and return the invalid form
+            form.add_error(None, 'You have already given feedback for this topic.')
+            return self.form_invalid(form)
+
         form.instance.topic = topic
         form.instance.creator_user = self.request.user
 
