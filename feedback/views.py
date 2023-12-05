@@ -15,7 +15,7 @@ class FeedbackCreateView(CreateView):
         topic_name = form.cleaned_data['topic']
         topic, created = Topic.objects.get_or_create(name=topic_name)
         form.instance.topic = topic
-        # form.instance.creator_user = self.request.user
+        form.instance.creator_user = self.request.user
         return super().form_valid(form)
 
 class TopicCreateView(UserPassesTestMixin, CreateView):
