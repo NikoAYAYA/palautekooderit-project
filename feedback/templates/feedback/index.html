@@ -1,9 +1,12 @@
+{% load user_filters %}
+
 <h1>Give Feedback</h1>
 
     <!-- <a href="{% url 'feedback:create_topic' %}">Create New Topic</a> -->
 
     {% if user.is_authenticated %}
-        {% if is_topic_master %}
+        <!-- Use a custom template filter from "palautekooderit/templatetags/user_filters" -->
+        {% if user|has_group:"topic_masters" %}
             <a href="{% url 'feedback:create_topic' %}">Create New Topic</a>
         {% endif %}
     {% endif %}

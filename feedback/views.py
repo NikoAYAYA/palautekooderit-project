@@ -1,10 +1,10 @@
 from django.shortcuts import render
+from django.views import View
 from django.views.generic.edit import CreateView
 from django.urls.base import reverse_lazy
 from .models import Feedback, Topic
 from django.contrib.auth.mixins import UserPassesTestMixin
 
-# Create your views here.
 class FeedbackCreateView(CreateView):
     model = Feedback
 
@@ -19,12 +19,16 @@ class FeedbackCreateView(CreateView):
     # get_context_data() is automatically called when the view is rendering the template.
     # We're overriding it here to add a variable that indicates whether the current user
     # is a member of the topic_masters group.
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        current_user = self.request.user
-        context['is_topic_master'] = current_user.groups.filter(name='topic_masters').exists()
+    
+    # This has now been replaced by a template filter that checks if the given user
+    # is part of a given group
 
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     current_user = self.request.user
+    #     context['is_topic_master'] = current_user.groups.filter(name='topic_masters').exists()
+
+    #     return context
     
     # More context data (like 'user') is added by context processors, which are defined in settings.py
     # They are automatically called by the TemplateResponse class defined in
@@ -56,3 +60,17 @@ class TopicCreateView(UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return self.request.user.groups.filter(name='topic_masters').exists()
+
+# View for returning feedback for each topic
+class ResultsView(UserPassesTestMixin, View):
+    def get(self, request, *args, **kwargs):
+        topics = Topic.objects.all()
+        results = []
+
+        for topic in topics:
+            results.append((topic, list(topic.feedback_set.all())))
+
+        return render(request, 'feedback/results.html', {'results': results})
+    
+    def test_func(self):
+        return self.request.user.is_staff

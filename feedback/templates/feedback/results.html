@@ -1,0 +1,30 @@
+<!-- Dropdown list of topics -->
+<select id="topicSelect">
+    {% for topic, feedbacks in results %}
+        <option value="{{ topic.id }}">{{ topic.name }}</option>
+    {% endfor %}
+</select>
+
+<!-- Feedback entries -->
+{% for topic, feedbacks in results %}
+    <div class="feedbackEntries" id="topic{{ topic.id }}" style="display: none;">
+        {% for feedback in feedbacks %}
+            <p>{{ feedback.content }}</p>
+        {% endfor %}
+    </div>
+{% endfor %}
+
+<!-- JavaScript to show/hide feedback entries -->
+<script>
+    document.getElementById('topicSelect').addEventListener('change', function() {
+        // Hide all feedback entries
+        var feedbackEntries = document.getElementsByClassName('feedbackEntries');
+        for (var i = 0; i < feedbackEntries.length; i++) {
+            feedbackEntries[i].style.display = 'none';
+        }
+
+        // Show feedback entries for selected topic
+        var selectedTopicId = this.value;
+        document.getElementById('topic' + selectedTopicId).style.display = 'block';
+    });
+</script>
