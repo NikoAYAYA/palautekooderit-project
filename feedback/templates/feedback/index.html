@@ -1,5 +1,13 @@
 <h1>Give Feedback</h1>
-<a href="{% url 'feedback:create_topic' %}">Create New Topic</a> <form action="" method="post">
+
+    <!-- <a href="{% url 'feedback:create_topic' %}">Create New Topic</a> <form action="" method="post"> -->
+
+    {% if user.is_authenticated %}
+        {% if is_topic_master %}
+            <a href="{% url 'feedback:create_topic' %}">Create New Topic</a>
+        {% endif %}
+    {% endif %}
+
     {% csrf_token %}
     <table>
         {{ form.as_table }}
