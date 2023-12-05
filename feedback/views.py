@@ -25,6 +25,10 @@ class FeedbackCreateView(CreateView):
         context['is_topic_master'] = current_user.groups.filter(name='topic_masters').exists()
 
         return context
+    
+    # More context data (like 'user') is added by context processors, which are defined in settings.py
+    # They are automatically called by the TemplateResponse class defined in
+    # the TemplateResponseMixin class, which is a parent class of CreateView
 
     # This is called automatically when valid form data has been POSTed
     def form_valid(self, form):
