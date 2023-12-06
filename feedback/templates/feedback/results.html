@@ -1,43 +1,85 @@
-<!-- Dropdown list of topics -->
-<select id="topicSelect">
-    {% for topic, feedbacks in results %}
-        <option value="{{ topic.id }}">{{ topic.name }}</option>
-    {% endfor %}
-</select>
+{% extends 'base.html' %}
+{% block title %}Results{% endblock %}
 
-<!-- Feedback entries -->
-{% for topic, feedbacks in results %}
-    <div class="topic" id="topic{{ topic.id }}" style="display: none;">
-        {% for feedback in feedbacks %}
-            <div class="feedbackEntry">
-                <p>{{ feedback.rating }}</p>
-                <p>{{ feedback.good }}</p>
-                <p>{{ feedback.bad }}</p>
-                <p>{{ feedback.ideas }}</p>
-                <p>{{ feedback.date }}</p>
-            </div>
-        {% endfor %}
+{% block content %}
+
+    <h1>Feedback Results</h1>
+
+    <div class="selectionBox">
+        <!-- Dropdown list of topics -->
+        <h2>Select a Topic</h2>
+        <select id="topicSelect">
+            <option selected>None</option>
+
+            {% for topic in topics %}
+                <option value="{{ topic.id }}">{{ topic.name }}</option>
+            {% endfor %}
+        </select>
     </div>
-{% endfor %}
 
-<!-- JavaScript to show/hide feedback entries -->
-<script>
-    let topics = document.getElementsByClassName('topic');
-    let topicsArray = Array.from(topics);
-    let topicSelect = document.getElementById('topicSelect');
-    let selectedTopicId = topicSelect.value;
-    let selectedTopic = topicsArray.find(e => e.id === "topic" + selectedTopicId);
-    selectedTopic.style.display = "block"
-    
-    topicSelect.addEventListener('change', function() {
-        // Hide all feedback entries
-        var topics = document.getElementsByClassName('topic');
-        for (var i = 0; i < topics.length; i++) {
-            topics[i].style.display = 'none';
-        }
+    <div class="resultsBox">
+        <div class="container">
+            <div class="row">
+                <div class="col" id="ratings">
+                    <h3>Ratings</h3>
+                    <ol>
+                        <li>⭐ (<span id="ratings1">0</span>)</li>
+                        <li>⭐⭐ (<span id="ratings2">0</span>)</li>
+                        <li>⭐⭐⭐ (<span id="ratings3">0</span>)</li>
+                        <li>⭐⭐⭐⭐ (<span id="ratings4">0</span>)</li>
+                        <li>⭐⭐⭐⭐⭐ (<span id="ratings5">0</span>)</li>
+                    </ol>
+                </div>
+                <div class="col" id="rating_graphics">
+                    Rating Graphics
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="good_feedback">
+                    Good
+                </div>
+                <div class="col" id="bad_feedback">
+                    Bad
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="ideas_feedback">
+                    Ideas
+                </div>
+                <div class="col">
+                    Placeholder
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // Show feedback entries for selected topic
-        var selectedTopicId = this.value;
-        document.getElementById('topic' + selectedTopicId).style.display = 'block';
-    });
-</script>
+    <script>
+        let topicSelect = document.getElementById('topicSelect');
+        let ratings = document.getElementById('ratings');
+        let ratingGraphics = document.getElementById('rating_graphics');
+        let goodFeedback = document.getElementById('good_feedback');
+        let badFeedback = document.getElementById('bad_feedback');
+        let ideasFeedback = document.getElementById('ideas_feedback');
+        
+        topicSelect.addEventListener('change', function() {
+            fetch(`/feedback/get-feedbacks/${this.value}`)
+            .then(res => res.json())
+            .then(feedbacks => {
+                let ratingCounts = [0, 0, 0, 0, 0];
+
+                for (let i = 0; i < feedbacks.length; i++) {
+                    let feedback = feedbacks[i];
+                    let fields = feedback["fields"]
+                    ratingCounts[fields["rating"] - 1] += 1;
+                }
+
+                document.getElementById('ratings1').innerHTML = ratingCounts[0];
+                document.getElementById('ratings2').innerHTML = ratingCounts[1];
+                document.getElementById('ratings3').innerHTML = ratingCounts[2];
+                document.getElementById('ratings4').innerHTML = ratingCounts[3];
+                document.getElementById('ratings5').innerHTML = ratingCounts[4];
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -1,9 +1,12 @@
+import json
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.edit import CreateView
 from django.urls.base import reverse_lazy
-from .models import Feedback, Topic
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.http import JsonResponse
+from django.core import serializers
+from .models import Feedback, Topic
 
 class FeedbackCreateView(CreateView):
     model = Feedback
@@ -61,16 +64,23 @@ class TopicCreateView(UserPassesTestMixin, CreateView):
     def test_func(self):
         return self.request.user.groups.filter(name='topic_masters').exists()
 
-# View for returning feedback for each topic
 class ResultsView(UserPassesTestMixin, View):
     def get(self, request, *args, **kwargs):
         topics = Topic.objects.all()
-        results = []
-
-        for topic in topics:
-            results.append((topic, list(topic.feedback_set.all())))
-
-        return render(request, 'feedback/results.html', {'results': results})
+        return render(request, 'feedback/results.html', {"topics": topics})
     
-    def test_func(self):
+    def test_func(self) -> bool | None:
+        return self.request.user.is_staff
+
+class GetFeedbacksView(UserPassesTestMixin, View):
+    def get(self, request, *args, **kwargs):
+        topic_id = kwargs["topic_id"]
+
+        feedbacks = Feedback.objects.filter(topic=topic_id)
+        feedbacks_json = serializers.serialize("json", feedbacks)
+        feedbacks_object = json.loads(feedbacks_json)
+
+        return JsonResponse(feedbacks_object, safe=False)
+
+    def test_func(self) -> bool | None:
         return self.request.user.is_staff

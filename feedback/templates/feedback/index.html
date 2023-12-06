@@ -5,7 +5,7 @@
     <!-- <a href="{% url 'feedback:create_topic' %}">Create New Topic</a> -->
 
     {% if user.is_authenticated %}
-        <!-- Use a custom template filter from "palautekooderit/templatetags/user_filters" -->
+        <!-- Use a custom template filter from "feedback/templatetags/user_filters" -->
         {% if user|has_group:"topic_masters" %}
             <a href="{% url 'feedback:create_topic' %}">Create New Topic</a>
         {% endif %}
