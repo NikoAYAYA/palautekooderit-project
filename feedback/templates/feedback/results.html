@@ -9,7 +9,7 @@
         <!-- Dropdown list of topics -->
         <h2>Select a Topic</h2>
         <select id="topicSelect">
-            <option selected>None</option>
+            <option selected value="None">None</option>
 
             {% for topic in topics %}
                 <option value="{{ topic.id }}">{{ topic.name }}</option>
@@ -19,39 +19,57 @@
 
     <div class="resultsBox">
         <div class="container">
+            <hr>
             <div class="row">
                 <div class="col" id="ratings">
                     <h3>Ratings</h3>
                     <ol>
-                        <li>⭐ (<span id="ratings1">0</span>)</li>
-                        <li>⭐⭐ (<span id="ratings2">0</span>)</li>
-                        <li>⭐⭐⭐ (<span id="ratings3">0</span>)</li>
-                        <li>⭐⭐⭐⭐ (<span id="ratings4">0</span>)</li>
-                        <li>⭐⭐⭐⭐⭐ (<span id="ratings5">0</span>)</li>
+                        <li>⭐ (<span id="ratings1">...</span>)</li>
+                        <li>⭐⭐ (<span id="ratings2">...</span>)</li>
+                        <li>⭐⭐⭐ (<span id="ratings3">...</span>)</li>
+                        <li>⭐⭐⭐⭐ (<span id="ratings4">...</span>)</li>
+                        <li>⭐⭐⭐⭐⭐ (<span id="ratings5">...</span>)</li>
                     </ol>
                 </div>
                 <div class="col" id="rating_graphics">
-                    Rating Graphics
+                    <h3>Rating Graphics</h3>
                 </div>
             </div>
+            <hr>
             <div class="row">
                 <div class="col" id="good_feedback">
-                    Good
+                    <h3>Good Feedback</h3>
                 </div>
                 <div class="col" id="bad_feedback">
-                    Bad
+                    <h3>Bad Feedback</h3>
                 </div>
             </div>
+            <hr>
             <div class="row">
                 <div class="col" id="ideas_feedback">
-                    Ideas
+                    <h3>Improvement Ideas</h3>
                 </div>
                 <div class="col">
-                    Placeholder
+                    <h3>Placeholder</h3>
                 </div>
             </div>
         </div>
     </div>
+
+    <script id="feedback-card-template" type="text/x-handlebars-template">
+    <!-- We need to use the verbatim tag here to prevent Django from 
+    messing with the context variable. Handlebars.js uses the same double
+    curly brace syntax for variables. -->
+    {% verbatim %}
+        <div class="card">
+            <div class="card-body">
+                <blockquote class="blockquote">
+                    <p>{{feedback_p}}</p>
+                </blockquote>
+            </div>
+        </div>
+    {% endverbatim %}
+    </script>
 
     <script>
         let topicSelect = document.getElementById('topicSelect');
@@ -60,17 +78,51 @@
         let goodFeedback = document.getElementById('good_feedback');
         let badFeedback = document.getElementById('bad_feedback');
         let ideasFeedback = document.getElementById('ideas_feedback');
+
+        let defaultGoodFeedback = goodFeedback.innerHTML;
+        let defaultBadFeedback = badFeedback.innerHTML;
+        let defaultIdeasFeedback = ideasFeedback.innerHTML;
+
+        let feedbackCardTemplateSource = document.getElementById('feedback-card-template').innerHTML;
+        let feedbackCardTemplate = Handlebars.compile(feedbackCardTemplateSource);
         
         topicSelect.addEventListener('change', function() {
+            if (this.value == "None") return;
+
             fetch(`/feedback/get-feedbacks/${this.value}`)
             .then(res => res.json())
             .then(feedbacks => {
                 let ratingCounts = [0, 0, 0, 0, 0];
 
+                // Clear previous feedbacks
+                goodFeedback.innerHTML = defaultGoodFeedback;
+                badFeedback.innerHTML = defaultBadFeedback;
+                ideasFeedback.innerHTML = defaultIdeasFeedback;
+
                 for (let i = 0; i < feedbacks.length; i++) {
                     let feedback = feedbacks[i];
                     let fields = feedback["fields"]
+
                     ratingCounts[fields["rating"] - 1] += 1;
+
+                    let goodFeedbackText = fields["good"];
+                    let badFeedbackText = fields["bad"];
+                    let ideasFeedbackText = fields["ideas"];
+
+                    if (goodFeedbackText != "") {
+                        let goodFeedbackCardHTML = feedbackCardTemplate({ feedback_p: goodFeedbackText });
+                        goodFeedback.innerHTML += goodFeedbackCardHTML;
+                    }
+
+                    if (badFeedbackText != "") {
+                        let badFeedbackCardHTML = feedbackCardTemplate({ feedback_p: badFeedbackText });
+                        badFeedback.innerHTML += badFeedbackCardHTML;
+                    }
+
+                    if (ideasFeedbackText != "") {
+                        let ideasFeedbackCardHTML = feedbackCardTemplate({ feedback_p: ideasFeedbackText });
+                        ideasFeedback.innerHTML += ideasFeedbackCardHTML;
+                    }
                 }
 
                 document.getElementById('ratings1').innerHTML = ratingCounts[0];
