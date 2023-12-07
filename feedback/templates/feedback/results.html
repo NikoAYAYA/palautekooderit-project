@@ -27,12 +27,13 @@
                 <div class="col" id="ratings">
                     <h3>Ratings</h3>
                     <ol>
-                        <li>⭐ (<span id="ratings1">...</span>)</li>
-                        <li>⭐⭐ (<span id="ratings2">...</span>)</li>
-                        <li>⭐⭐⭐ (<span id="ratings3">...</span>)</li>
-                        <li>⭐⭐⭐⭐ (<span id="ratings4">...</span>)</li>
-                        <li>⭐⭐⭐⭐⭐ (<span id="ratings5">...</span>)</li>
+                        <li>⭐ (<span id="ratings1">0</span>)</li>
+                        <li>⭐⭐ (<span id="ratings2">0</span>)</li>
+                        <li>⭐⭐⭐ (<span id="ratings3">0</span>)</li>
+                        <li>⭐⭐⭐⭐ (<span id="ratings4">0</span>)</li>
+                        <li>⭐⭐⭐⭐⭐ (<span id="ratings5">0</span>)</li>
                     </ol>
+                    <p>Average score: <span id="averageRating">0</span></p>
                 </div>
                 <div class="col" id="rating_graphics">
                     <h3>Rating Graphics</h3>
@@ -40,17 +41,20 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col" id="good_feedback">
+                <div class="col">
                     <h3>Good Feedback</h3>
+                    <div class="overflow-auto" id="good_feedback" style="max-height: 400px;"></div>
                 </div>
-                <div class="col" id="bad_feedback">
+                <div class="col">
                     <h3>Bad Feedback</h3>
+                    <div class="overflow-auto" id="bad_feedback" style="max-height: 400px;"></div>
                 </div>
             </div>
             <hr>
             <div class="row">
-                <div class="col" id="ideas_feedback">
-                    <h3>Improvement Ideas</h3>
+                <div class="col">
+                    <h3>Feedback Ideas</h3>
+                    <div class="overflow-auto" id="ideas_feedback" style="max-height: 400px;"></div>
                 </div>
                 <div class="col">
                     <h3>Placeholder</h3>
@@ -82,10 +86,6 @@
         let badFeedback = document.getElementById('bad_feedback');
         let ideasFeedback = document.getElementById('ideas_feedback');
 
-        let defaultGoodFeedback = goodFeedback.innerHTML;
-        let defaultBadFeedback = badFeedback.innerHTML;
-        let defaultIdeasFeedback = ideasFeedback.innerHTML;
-
         let feedbackCardTemplateSource = document.getElementById('feedback-card-template').innerHTML;
         let feedbackCardTemplate = Handlebars.compile(feedbackCardTemplateSource);
         
@@ -98,9 +98,9 @@
                 let ratingCounts = [0, 0, 0, 0, 0];
 
                 // Clear previous feedbacks
-                goodFeedback.innerHTML = defaultGoodFeedback;
-                badFeedback.innerHTML = defaultBadFeedback;
-                ideasFeedback.innerHTML = defaultIdeasFeedback;
+                goodFeedback.innerHTML = "";
+                badFeedback.innerHTML = "";
+                ideasFeedback.innerHTML = "";
 
                 for (let i = 0; i < feedbacks.length; i++) {
                     let feedback = feedbacks[i];
@@ -133,6 +133,17 @@
                 document.getElementById('ratings3').innerHTML = ratingCounts[2];
                 document.getElementById('ratings4').innerHTML = ratingCounts[3];
                 document.getElementById('ratings5').innerHTML = ratingCounts[4];
+
+                // Calculate average rating
+                let total = 0;
+                let count = 0;
+                for (let i = 0; i < ratingCounts.length; i++) {
+                    total += (i + 1) * ratingCounts[i];
+                    count += ratingCounts[i];
+                }
+
+                let averageRating = total / count;
+                document.getElementById('averageRating').innerHTML = averageRating.toFixed(2);
             });
         });
     </script>
