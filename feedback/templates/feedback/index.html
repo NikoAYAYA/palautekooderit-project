@@ -1,5 +1,9 @@
+{% extends 'base.html' %}
 {% load user_filters %}
 
+{% block title %}Give Feedback{% endblock %}
+
+{% block content %}
 <h1>Give Feedback</h1>
 
     <!-- <a href="{% url 'feedback:create_topic' %}">Create New Topic</a> -->
@@ -19,3 +23,4 @@
     <input type="submit" value="Submit">
 </form>
 <a href="/">Return to Account Home</a>
+{% endblock %}

@@ -3,12 +3,12 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic.edit import CreateView
 from django.urls.base import reverse_lazy
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.http import JsonResponse
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.http import HttpResponseRedirect, JsonResponse
 from django.core import serializers
 from .models import Feedback, Topic
 
-class FeedbackCreateView(CreateView):
+class FeedbackCreateView(LoginRequiredMixin, CreateView):
     model = Feedback
 
     # Include all fields except creator_user in the form
@@ -54,25 +54,38 @@ class FeedbackCreateView(CreateView):
         # This saves the form instance to the database and redirects to the success_url
         # This is default behavior, but we're overriding it to add the topic and creator_user
         return super().form_valid(form)
+    
+    def handle_no_permission(self) -> HttpResponseRedirect:
+        return HttpResponseRedirect(reverse_lazy('login'))
 
-class TopicCreateView(UserPassesTestMixin, CreateView):
+class TopicCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Topic
     fields = ['name']
     template_name = "feedback/create_topic.html"
     success_url = reverse_lazy('feedback:index')
 
+    def form_valid(self, form):
+        form.instance.creator_user = self.request.user
+        return super().form_valid(form)
+    
+    def handle_no_permission(self) -> HttpResponseRedirect:
+        return HttpResponseRedirect(reverse_lazy('login'))
+
     def test_func(self):
         return self.request.user.groups.filter(name='topic_masters').exists()
 
-class ResultsView(UserPassesTestMixin, View):
+class ResultsView(LoginRequiredMixin, UserPassesTestMixin, View):
     def get(self, request, *args, **kwargs):
         topics = Topic.objects.all()
         return render(request, 'feedback/results.html', {"topics": topics})
     
+    def handle_no_permission(self) -> HttpResponseRedirect:
+        return HttpResponseRedirect(reverse_lazy('login'))
+    
     def test_func(self) -> bool | None:
         return self.request.user.is_staff
 
-class GetFeedbacksView(UserPassesTestMixin, View):
+class GetFeedbacksView(LoginRequiredMixin, UserPassesTestMixin, View):
     def get(self, request, *args, **kwargs):
         topic_id = kwargs["topic_id"]
 
@@ -81,6 +94,9 @@ class GetFeedbacksView(UserPassesTestMixin, View):
         feedbacks_object = json.loads(feedbacks_json)
 
         return JsonResponse(feedbacks_object, safe=False)
+    
+    def handle_no_permission(self) -> HttpResponseRedirect:
+        return HttpResponseRedirect(reverse_lazy('login'))
 
     def test_func(self) -> bool | None:
         return self.request.user.is_staff
