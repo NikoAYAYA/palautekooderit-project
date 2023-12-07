@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block extrahead %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 {% endblock %}
 {% block title %}Results{% endblock %}
 
@@ -35,8 +36,9 @@
                     </ol>
                     <p>Average score: <span id="averageRating">0</span></p>
                 </div>
-                <div class="col" id="rating_graphics">
+                <div class="col" id="rating_graphics" style="max-height: 400px;">
                     <h3>Rating Graphics</h3>
+                    <canvas id="ratingChart"></canvas>
                 </div>
             </div>
             <hr>
@@ -88,6 +90,8 @@
 
         let feedbackCardTemplateSource = document.getElementById('feedback-card-template').innerHTML;
         let feedbackCardTemplate = Handlebars.compile(feedbackCardTemplateSource);
+
+        let ratingChart;
         
         topicSelect.addEventListener('change', function() {
             if (this.value == "None") return;
@@ -144,6 +148,34 @@
 
                 let averageRating = total / count;
                 document.getElementById('averageRating').innerHTML = averageRating.toFixed(2);
+
+                // Update rating chart
+                if (ratingChart) {
+                    ratingChart.destroy();
+                }
+
+                ratingChart = new Chart(document.getElementById("ratingChart"),
+                {
+                    type: "bar",
+                    data: {
+                        labels: ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"],
+                        datasets: [
+                            {
+                                label: "Amount of Ratings",
+                                data: ratingCounts
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
             });
         });
     </script>
