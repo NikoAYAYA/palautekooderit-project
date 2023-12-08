@@ -94,6 +94,7 @@ WSGI_APPLICATION = 'palautekooderit.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+<<<<<<< HEAD
 if secrets is not None:
     DATABASES = {
         'default': {
@@ -105,10 +106,35 @@ if secrets is not None:
             'HOST': 'localhost',
             'PORT': '',
         }
+=======
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': BASE_DIR / 'djangodb.sql',
+>>>>>>> master
     }
 
 
 # Password validation
+++<<<<<<< HEAD
+ +if secrets is not None:
+ +    DATABASES = {
+ +        'default': {
+ +            'ENGINE': 'django.db.backends.mysql',
+ +            # 'NAME': BASE_DIR / 'db.sql',
+ +            'NAME': 'djangodb',
+ +            'USER': secrets['dbuser'],
+ +            'PASSWORD': secrets['dbpassword'],
+ +            'HOST': 'localhost',
+ +            'PORT': '',
+ +        }
+++=======
++ DATABASES = {
++     'default': {
++         'ENGINE': 'django.db.backends.mysql',
++         'NAME': BASE_DIR / 'djangodb.sql',
+++>>>>>>> master
+      }
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
