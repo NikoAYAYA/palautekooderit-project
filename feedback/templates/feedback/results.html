@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block extrahead %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+{% endblock %}
+{% block title %}Results{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+    <h1>Feedback Results</h1>
+
+    <div class="selectionBox">
+        <!-- Dropdown list of topics -->
+        <h2>Select a Topic</h2>
+        <select id="topicSelect">
+            <option selected value="None">None</option>
+
+            {% for topic in topics %}
+                <option value="{{ topic.id }}">{{ topic.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="resultsBox">
+        <div class="container">
+            <hr>
+            <div class="row">
+                <div class="col" id="ratings">
+                    <h3>Ratings</h3>
+                    <ol>
+                        <li>⭐ (<span id="ratings1">0</span>)</li>
+                        <li>⭐⭐ (<span id="ratings2">0</span>)</li>
+                        <li>⭐⭐⭐ (<span id="ratings3">0</span>)</li>
+                        <li>⭐⭐⭐⭐ (<span id="ratings4">0</span>)</li>
+                        <li>⭐⭐⭐⭐⭐ (<span id="ratings5">0</span>)</li>
+                    </ol>
+                    <p>Average score: <span id="averageRating">0</span></p>
+                </div>
+                <div class="col" id="rating_graphics" style="max-height: 400px;">
+                    <h3>Rating Graphics</h3>
+                    <canvas id="ratingChart"></canvas>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <h3>Good Feedback</h3>
+                    <div class="overflow-auto" id="good_feedback" style="max-height: 400px;"></div>
+                </div>
+                <div class="col">
+                    <h3>Bad Feedback</h3>
+                    <div class="overflow-auto" id="bad_feedback" style="max-height: 400px;"></div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <h3>Feedback Ideas</h3>
+                    <div class="overflow-auto" id="ideas_feedback" style="max-height: 400px;"></div>
+                </div>
+                <div class="col">
+                    <h3>Placeholder</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'feedback/feedback-card-template.hbs' %}" id="feedback-card-template" type="text/x-handlebars-template"></script>
+    <script src="{% static 'feedback/results_updater.js' %}"></script>
+
+{% endblock %}

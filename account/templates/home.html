@@ -1,17 +1,32 @@
 {% extends 'base.html' %}
+{% load user_filters %}
+{% block title %}Home{% endblock %}
+
 {% block content %}
-<h1>Home</h1>
-{% if user.is_authenticated %}
-    <p>User logged in: {{ user }}</p>
-    <p><a href="{% url 'logout' %}">Logout</a></p>
-{% else %}
-    <p>You must login first.</p>
-    <p><a href="{% url 'login' %}">Login</a></p>
-    <p><a href="{% url 'signup' %}">Create a new Account</a></p>
-{% endif %}
-<h2>Apps Gallery </h2>
-<ul>
-    <li><a href="{% url 'feedback:index' %}">Give feedback</a></li>
-    <li><a href="{% url 'feedback:create_topic' %}">Create Topic</a></li>
-</ul>
+
+    <h1>Home</h1>
+        {% if user.is_authenticated %}
+            <p>User logged in: {{ user }}</p>
+            <p><a href="{% url 'logout' %}">Logout</a></p>
+
+        {% else %}
+            <p>You must login first.</p>
+            <p><a href="{% url 'login' %}">Login</a></p>
+            <p><a href="{% url 'signup' %}">Create a new Account</a></p>
+
+        {% endif %}
+
+    <h2>Apps Gallery </h2>
+    <ul>
+        <li><a href="{% url 'feedback:index' %}">Give Feedback</a></li>
+
+        {% if user|has_group:"topic_masters" %}
+            <li><a href="{% url 'feedback:create_topic' %}">Create Topic</a></li>
+        {% endif %}
+
+        {% if user.is_staff %}
+            <li><a href="{% url 'feedback:results' %}">Show Results</a></li>
+        {% endif %}
+    </ul>
+
 {% endblock %}
