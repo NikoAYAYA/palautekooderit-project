@@ -7,18 +7,18 @@
     <h1>Home</h1>
         {% if user.is_authenticated %}
             <p>User logged in: {{ user }}</p>
-            <p><a href="{% url 'logout' %}">Logout</a></p>
+            <p><a href="{% url 'logout' %}" class="btn btn-outline-dark">Logout</a></p>
 
         {% else %}
             <p>You must login first.</p>
-            <p><a href="{% url 'login' %}">Login</a></p>
-            <p><a href="{% url 'signup' %}">Create a new Account</a></p>
+            <p><a href="{% url 'login' %}" class="btn btn-outline-dark">Login</a></p>
+            <p><a href="{% url 'signup' %}" class="btn btn-outline-dark">Create a new Account</a></p>
 
         {% endif %}
 
     <h2>Apps Gallery </h2>
     <ul>
-        <li><a href="{% url 'feedback:index' %}">Give Feedback</a></li>
+        <li><a href="{% url 'feedback:index' %}" class="btn btn-outline-dark">Give Feedback</a></li>
 
         {% if user|has_group:"topic_masters" %}
             <li><a href="{% url 'feedback:create_topic' %}">Create Topic</a></li>

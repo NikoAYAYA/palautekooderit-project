@@ -4,9 +4,11 @@
   <head>
     <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'mainstyle.css' %}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 
   {% block extrahead %}
   {% endblock %}
@@ -21,19 +23,25 @@
     {% block body %}
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-          <a class="navbar-brand" href="{% url 'home' %}">Feedback App</a>
+          <div class="flextop">
+            <a class="navbar-brand" href="{% url 'home' %}">Feedback App</a>
+          </div>
         </div>
       </nav>
-      <div class="container">
-        <ol class="breadcrumb my-4">
-          {% block breadcrumb %}
+      
+      <div class="container"><div class="d-flex justify-content-center">
+        <div class="flexbot">
+          <ol class="breadcrumb my-4">
+            {% block breadcrumb %}
+            {% endblock %}
+          </ol>
+          {% block content %}
           {% endblock %}
-        </ol>
-        {% block content %}
-        {% endblock %}
+        </div>
+      </div>
 	{% block footer %}
 	<hr>
-	<footer>terms policy copyright</footer>
+	<footer>Terms Policy Copyright</footer><div class="d-flex justify-content-center">
 	{% endblock footer %}
       </div>
     {% endblock body %}
