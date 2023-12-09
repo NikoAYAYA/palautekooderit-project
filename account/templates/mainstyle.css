@@ -1,8 +1,0 @@
-p,h1,h2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#td,textarea {
-    height: 100px;
-}
