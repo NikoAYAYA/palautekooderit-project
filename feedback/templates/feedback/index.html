@@ -11,7 +11,7 @@
     {% if user.is_authenticated %}
         <!-- Use a custom template filter from "feedback/templatetags/user_filters" -->
         {% if user|has_group:"topic_masters" %}
-            <a href="{% url 'feedback:create_topic' %}">Create New Topic</a>
+            <a class="btn btn-outline-dark" href="{% url 'feedback:create_topic' %}">Create New Topic</a>
         {% endif %}
     {% endif %}
 
