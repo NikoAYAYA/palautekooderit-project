@@ -21,11 +21,11 @@
         <li><a href="{% url 'feedback:index' %}" class="btn btn-outline-dark">Give Feedback</a></li>
 
         {% if user|has_group:"topic_masters" %}
-            <li><a href="{% url 'feedback:create_topic' %}" class="btn btn-outline-dark pt-4">Create Topic</a></li>
+            <li><a href="{% url 'feedback:create_topic' %}" class="btn btn-outline-dark">Create Topic</a></li>
         {% endif %}
 
         {% if user.is_staff %}
-            <li><a href="{% url 'feedback:results' %}" class="btn btn-outline-dark pt-4">Show Results</a></li>
+            <li><a href="{% url 'feedback:results' %}" class="btn btn-outline-dark">Show Results</a></li>
         {% endif %}
     
     </ul>
