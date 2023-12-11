@@ -4,6 +4,12 @@
 {% block title %}Give Feedback{% endblock %}
 
 {% block content %}
+<style>
+    .errorlist {
+        color: red;
+    }
+</style>
+
 <h1>Give Feedback</h1>
 
     <!-- <a href="{% url 'feedback:create_topic' %}">Create New Topic</a> -->
@@ -22,10 +28,10 @@
         {{ form.as_table }}
     </table>
     <div class="row justify-content-center pt-4">
-    <input type="submit" value="Submit" class="btn btn-outline-dark btn-max-width">
+    <input type="submit" value="Submit" class="btn btn-outline-dark btn-max-width w-25">
     </div>
 </form>
 
-<a href="/" class="btn btn-outline-dark">Return to Account Home</a>
+<a href="/" class="btn btn-outline-dark">Back to Home</a>
 
 {% endblock %}

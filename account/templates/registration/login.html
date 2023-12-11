@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
+<style>
+    .errorlist {
+        color: red;
+    }
+</style>
+
 <h2>Login</h2>
-<form method="post">
+<form method="post" class="d-flex flex-column align-items-center">
     {% csrf_token %}
     <table>
-    {{ form.as_table }}
-</table>
-    <button type="submit" class="btn btn-outline-dark">Login</button>
+        {{ form.as_table }}
+    </table>
+    <button type="submit" class="btn btn-outline-dark my-2">Login</button>
 </form>
 {% endblock %}

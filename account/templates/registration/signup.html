@@ -1,15 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-<style>th {display: flex;align-items: flex-start;justify-content: flex-start;} td {padding-left: 10px;} </style>
+<style>
+  th {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  
+  td {
+    padding: 0 0 20px 10px;
+  }
+
+  .errorlist {
+    color: red;
+  }
+</style>
+
 <h2>Sign up</h2>
 
 <form method="post" novalidate>
   {% csrf_token %}
   <table>
-  {{ form.as_table }}
+    {{ form.as_table }}
   </table>
+
   <div class="row pt-4">
-  <button type="submit" class="btn btn-outline-dark btn-max-width">Create an account</button>
+    <button type="submit" class="btn btn-outline-dark btn-max-width">Create an account</button>
   </div>
 </form>
 {% endblock %}

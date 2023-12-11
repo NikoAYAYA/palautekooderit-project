@@ -23,54 +23,64 @@
         </select>
     </div>
 
-    <div class="resultsBox">
-        <div class="container">
-            <hr>
-            <div class="row">
-                <div class="col" id="ratings">
-                    <h3>Ratings</h3>
-                    <ol>
-                        <li>⭐ (<span id="ratings1">0</span>)</li>
-                        <li>⭐⭐ (<span id="ratings2">0</span>)</li>
-                        <li>⭐⭐⭐ (<span id="ratings3">0</span>)</li>
-                        <li>⭐⭐⭐⭐ (<span id="ratings4">0</span>)</li>
-                        <li>⭐⭐⭐⭐⭐ (<span id="ratings5">0</span>)</li>
-                    </ol>
-                    <p>Average score: <span id="averageRating">0</span></p>
+      <div class="container">
+          <hr>
+          <div class="row w-100">
+              <div class="col" id="ratings">
+                  <h3>Ratings</h3>
+                  <ol>
+                      <li>⭐ (<span id="ratings1">0</span>)</li>
+                      <li>⭐⭐ (<span id="ratings2">0</span>)</li>
+                      <li>⭐⭐⭐ (<span id="ratings3">0</span>)</li>
+                      <li>⭐⭐⭐⭐ (<span id="ratings4">0</span>)</li>
+                      <li>⭐⭐⭐⭐⭐ (<span id="ratings5">0</span>)</li>
+                  </ol>
+                  <p class="my-0" style="font-weight: bold;">Average score:</p>
+                  <p id="averageRating">0</p>
+              </div>
+              <div class="col" id="rating_graphics" style="max-height: 400px;">
+                  <h3>Rating Graphics</h3>
+                  <canvas id="ratingChart"></canvas>
+              </div>
+          </div>
+          <hr>
+          <div class="container p-0">
+              <div class="row w-100 mb-4">
+                <div class="col">
+                  <h3>Positive Feedback</h3>
+                  <div class="overflow-auto border rounded p-2" id="good_feedback" style="max-height: 400px;"></div>
                 </div>
-                <div class="col" id="rating_graphics" style="max-height: 400px;">
-                    <h3>Rating Graphics</h3>
-                    <canvas id="ratingChart"></canvas>
-                </div>
-            </div>
-            <hr>
-            <div class="container">
-                <div class="row mb-4">
-                  <div class="col">
-                    <h3>Good Feedback</h3>
-                    <div class="overflow-auto border rounded p-2" id="good_feedback" style="max-height: 400px;"></div>
-                  </div>
-                  <div class="col">
-                    <h3>Bad Feedback</h3>
-                    <div class="overflow-auto border rounded p-2" id="bad_feedback" style="max-height: 400px;"></div>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col">
-                    <h3>Feedback Ideas</h3>
-                    <div class="overflow-auto border rounded p-2" id="ideas_feedback" style="max-height: 400px;"></div>
-                  </div>
-                  <div class="col">
-                    <h3>Placeholder</h3>
-                  </div>
+                <div class="col">
+                  <h3>Negative Feedback</h3>
+                  <div class="overflow-auto border rounded p-2" id="bad_feedback" style="max-height: 400px;"></div>
                 </div>
               </div>
-              
-        </div>
-    </div>
+              <hr>
+              <div class="row w-100">
+                <div class="col">
+                  <h3>Improvement Ideas</h3>
+                  <div class="overflow-auto border rounded p-2" id="ideas_feedback" style="max-height: 400px;"></div>
+                </div>
+                <!-- <div class="col">
+                  <h3>Placeholder</h3>
+                </div> -->
+              </div>
+            </div>
+      </div>
 
-    <script src="{% static 'feedback/feedback-card-template.hbs' %}" id="feedback-card-template" type="text/x-handlebars-template"></script>
+    <script type="text/x-handlebars-template" id="feedback-card-template">
+      {% verbatim %}
+      <div class="card my-3">
+          <div class="card-body py-1">
+              <blockquote class="blockquote my-1">
+                  <p>{{feedback_p}}</p>
+              </blockquote>
+          </div>
+      </div>
+      {% endverbatim %}
+    </script>
+
+    <!-- <script src="{% static 'feedback/feedback-card-template.hbs' %}" id="feedback-card-template" type="text/x-handlebars-template"></script> -->
     <script src="{% static 'feedback/results_updater.js' %}"></script>
 
 {% endblock %}

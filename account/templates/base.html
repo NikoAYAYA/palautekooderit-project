@@ -15,6 +15,12 @@
   <title>{% block title %}Django Examples{% endblock %}</title>
     {% block stylesheet %}
     <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
       .container {
         display: flex;
         justify-content: center;
@@ -24,14 +30,14 @@
         column-gap: 10px;
         padding: 40px;
       }
+
       textarea {
         height: 100px;
       }
+
       footer {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: flex-start;
-        padding-top: 40px;
+        margin-top: auto;
+        text-align: center;
       }
       .btn-max-width {
       max-width: 200px; /* Adjust the value as needed */
@@ -47,27 +53,38 @@
   <body>
     {% block body %}
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">Feedback App</a>
+        <div class="container py-1">
+            <div class="navbar-nav mr-auto d-flex w-100 justify-content-between">
+              <a class="navbar-brand" href="{% url 'home' %}">Feedback App</a>
+              <div class="d-flex">
+                {% if user.is_authenticated %}
+                  <p class="navbar-text me-3">Logged in as: {{ user }}</p>
+                  <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              {% else %}
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+                <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+              {% endif %}
+              </div>
+            </div>
         </div>
       </nav>
       
       <div class="container">
-        
-        
-          <ol class="breadcrumb my-4">
+          <!-- <ol class="breadcrumb my-4">
             {% block breadcrumb %}
             {% endblock %}
-         
-          </ol>
+          </ol> -->
           {% block content %}
           {% endblock %}
-        
       </div>
-	{% block footer %}
-	<hr>
-	<footer>Terms Policy Copyright</footer>
-	{% endblock footer %}
+
+      {% block footer %}
+        <footer>
+          <hr>
+          <p>Palautekooderit</p>
+        </footer>
+      {% endblock footer %}
+
     {% endblock body %}
   </body>
 </html>

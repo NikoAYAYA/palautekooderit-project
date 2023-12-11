@@ -4,30 +4,24 @@
 
 {% block content %}
 
-    <h1>Home</h1>
+    <h1>Feedback</h1>
         {% if user.is_authenticated %}
-            <p>User logged in: {{ user }}</p>
-            <p><a href="{% url 'logout' %}" class="btn btn-outline-dark">Logout</a></p>
+            <div class="row d-flex flex-column align-items-center w-20">
+                <a href="{% url 'feedback:index' %}" class="btn btn-outline-dark my-2">Give Feedback</a>
+
+                {% if user|has_group:"topic_masters" %}
+                    <a href="{% url 'feedback:create_topic' %}" class="btn btn-outline-dark my-2">Create Topic</a>
+                {% endif %}
+
+                {% if user.is_staff %}
+                    <a href="{% url 'feedback:results' %}" class="btn btn-outline-dark my-2">Show Results</a>
+                {% endif %}
+            </div>
 
         {% else %}
-            <p>You must login first.</p>
-            <p><a href="{% url 'login' %}" class="btn btn-outline-dark">Login</a></p>
-            <p><a href="{% url 'signup' %}" class="btn btn-outline-dark">Create a new Account</a></p>
+            <p>Please login in</p>
+            <p class="my-0"><a href="{% url 'login' %}" class="btn btn-outline-dark">Login</a></p>
+            <p class="my-0"><a href="{% url 'signup' %}" class="btn btn-outline-dark">Create a new Account</a></p>
 
         {% endif %}
-
-    <h2>Apps Gallery </h2><div class="row justify-content-center">
-    <ul class="no-bullet">
-        <li><a href="{% url 'feedback:index' %}" class="btn btn-outline-dark">Give Feedback</a></li>
-
-        {% if user|has_group:"topic_masters" %}
-            <li><a href="{% url 'feedback:create_topic' %}" class="btn btn-outline-dark">Create Topic</a></li>
-        {% endif %}
-
-        {% if user.is_staff %}
-            <li><a href="{% url 'feedback:results' %}" class="btn btn-outline-dark">Show Results</a></li>
-        {% endif %}
-    
-    </ul>
-</div>
 {% endblock %}
